@@ -1,26 +1,19 @@
 # TKJ-harjoitustyö 2023 Fibonacci
-# Jimi Gustafsson, 2207779, jimi.gustafsson@edu.oulu.fi
-#
-# Pohdinta:
-# - Ajonaikaisten käskyjen määrä yhdellä syötteellä (233) huonoimmassa tapauksessa koodin ollessa rikki oli noin 15000 askelta.
-# - Tämä tosin tajuttuani että syöte oli isompi fibonaccin luku ja Lovelace antoi virheen koska koodini ei pysty käsittelemään niin isoa lukua.
-# - Isojen neliöjuureen menevien lukujen takia bittimäärää piti nostaa kuudestatoista kolmeenkytäkahteen...
-# - Onneksi koodi on kuitenkin optimoitu niin että ei pitäisi montaa lisävaihetta tulla pienempien lukujen kanssa.
-# - Testitapauksilla, näillä pienillä luvuilla voi siis hyvinkin mennä alle 30000 askeleen.
-# - Koodihan tosiaan laskee ennen ensimmäistä jakamista (while bit>num) montako kertaa pitää tuo bit jakaa neljällä ennen kuin lähdetään varsinaisesti jakamaan.
-# - Iso pullonkaula toteutuksessa kuitenkin on tuo neliöjuurioperaatio, erityisesti se montako kertaa se toteutetaan suorituksen aikana.
-# - Ehkä jos olisi enemmän aikaa siihen olisi voinut keksiä lisää optimointia nimenomaan tätä -4 +4 tapausta varten. Ehkä sen olisi saanut
-# - haarautettua jossain kohtaa kun huomataan eroavaisuutta arvoissa. 
-# - Shiftaaminen oikealle on varsin työlästä ja identtiset vaiheet jos saisi tehtyä yhtä aikaa lyhentäisi operaatiota merkittävästi.
-# - Peasant multiplication taas siihen voi olla tyytyväinen. Se toimii tässä tehtävässä erinomaisesti, kun kertojan (rbx) voi määrittää itse (vitonen tai kerrottava).
-# - MSB:tä kohti bittisiirto on todella helppo. luku + luku = luku << 1
-# 
-# - Suurimman osan optimointia olin onneksi tehnyt ennen tämän tekoon ryhtymistä.
-# - Neliöjuurilaskennasta kerroin ylempänä mutta lisämainintana tuo bignumber loopin sisällä oleva "nollaskip"
-# - joka jättää turhan 64kpl bitshiftin oikealle tekemättä jos inputtina on vain nollaa.
-# - Oikeastaan ainut mahdollinen optimointi kertofunktioon voisi olla kertaa viisi integrointi suoraan funktioon.
-# - Siitä saisi muutamiset sataa käskyä pienemmäksi.
-# - Edit 16.12.23. Toteutin viidellä kerronnan uudestaan paljon nopeammin. Pari bitshiftiä vasemmalle johon lisätään päälle yhden kerran kopio.
+# Jimi Gustafsson, 2207779, jimi.gustafsson@student.oulu.fi
+# %rax rekisteriin jää 0 jos kaikki luvut fibonacci lukuja
+
+#Kokeile eri luvuilla, nykyinen toteutus palauttaa arvon 666 koska se ei
+#Ole fibonacci luku
+.pos 0
+   irmovq array,%r11     # muistipaikka 0x700
+   irmovq $3,%r12        # 3
+   rmmovq %r12,(%r11)
+   irmovq $5,%r12        # 5
+   rmmovq %r12,8(%r11)
+   irmovq $8,%r12        # 8
+   rmmovq %r12,16(%r11)
+   irmovq $666,%r12        # loppunolla
+   rmmovq %r12,24(%r11)
 
 # Tästä alkaa koodi
 main:
